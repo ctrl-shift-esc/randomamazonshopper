@@ -26,6 +26,22 @@ casper.thenEvaluate(function(){
 	document.querySelector('form[name="site-search"]').submit();
 }, 'CasperJS');
 
+casper.then(function(){
+	//this.viewport(1280, 1024);
+	this.wait(5000);
+
+});
+
+casper.thenEvaluate(function(){
+	document.getElementById('result_0').getElementsByTagName('h3')[0].getElementsByTagName('a')[0].click();
+	//document.getElementById('result_0').getElementsByTagName('div')[2].getElementsByTagName('a')[0].click();
+	//document.querySelector('#result_0 h3 a').click();
+
+	
+	
+
+}, 'CasperJS');
+
 
 //taking screenshot - used for debug
 casper.then(function(){
