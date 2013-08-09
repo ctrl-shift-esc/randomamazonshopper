@@ -26,21 +26,41 @@ casper.thenEvaluate(function(){
 	document.querySelector('form[name="site-search"]').submit();
 }, 'CasperJS');
 
-casper.then(function(){
-	//this.viewport(1280, 1024);
-	this.wait(5000);
 
-});
+//Checking, out of all the results, which one is less than the max amount( 20 bucks)
 
 casper.thenEvaluate(function(){
-	document.getElementById('result_0').getElementsByTagName('h3')[0].getElementsByTagName('a')[0].click();
-	//document.getElementById('result_0').getElementsByTagName('div')[2].getElementsByTagName('a')[0].click();
-	//document.querySelector('#result_0 h3 a').click();
+	
+	var i = 0;
+	var selector = '';
+	var text = "";
+	var price = 0.0;
+	do{
+		selector = '#result_' + i + ' ul li a span';
+		text = document.querySelector(selector).innerText; 
+		text = text.split(" ");
+		text = text[1].split(",");
+		price = parseFloat(text[0]) + (parseFloat(text[1])/100);
+		//__utils__.echo(price);
+		//__utils__.echo(i);
+		i = i + 1;
+		if (i > 16) {
+			i = 0;
+			//__utils__.echo("next page");
+			casper.thenClick('#pagnNextLink');
+		};
 
+	}while(price > 21);
+	var res = '#result_' + (i-1) + ' h3 a';
+	//__utils__.echo(res);
+	
+	//The following line does not work. I am not able to click on the link
+	document.querySelector(res).click();
 	
 	
-
 }, 'CasperJS');
+
+
 
 
 //taking screenshot - used for debug
